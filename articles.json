@@ -28,5 +28,13 @@
     "status": "published",
     "created_at": "2026-07-14 21:42:07",
     "updated_at": "2026-07-14 21:42:07"
+  },
+  {
+    "title": "Duo SSO Fails with \"Welcome to Duo\" pop-up",
+    "body": "![Duo-SSO-Error](https://raw.githubusercontent.com/mokuma56/POD-Automator-KB/main/images/4dcc514d_Duo-SSO-Error.jpg)\n\nIf a user goes to test Duo and they get a 'Welcome to Duo\" pop-up it is because they did not set the global policy was not set to allow access without MFA \n\n\n![Duo-Allow-MFA](https://raw.githubusercontent.com/mokuma56/POD-Automator-KB/main/images/fb60094e_Duo-Allow-MFA.jpg)",
+    "tags": "",
+    "category": "Connect DUO IDP",
+    "status": "published",
+    "created_at": "2026-07-15 21:34:52"
   }
 ]
