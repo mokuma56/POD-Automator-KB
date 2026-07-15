@@ -1,0 +1,32 @@
+[
+  {
+    "id": 21,
+    "title": "Bootstrap Failure — Config Register 0x2142",
+    "body": "## Symptom\n\nRouter boots into SD-WAN controller mode with **no config** every time, even though `ciscosdwan.cfg` is present and correct on bootflash. Pipeline shows `controller_mode_enable` completing but the router comes up blank.\n\n## Root Cause\n\nConfig register `0x2142` tells the router to ignore NVRAM/startup-config on boot. The bootstrap file is never loaded.\n\n## How to Detect\n\nRun `show bootvar` on the router. Look for:\n\n```\nConfiguration register is 0x2142\n```\n\nAlso watch the `controller_mode_enable` pipeline output for this warning — it is the tell:\n\n```\nWARNING: Boot variable either does not exist or buffer is too small\nThis may impact autoboot of the router. Proceed with caution\n```\n\nIf you see that warning, check `show bootvar` immediately.\n\n## Fix\n\nSSH to the router and run:\n\n```\nconf t\nconfig-register 0x2102\nend\nwrite mem\nreload\n```\n\nAfter reload, run `show bootvar` again and confirm:\n\n```\nConfiguration register is 0x2102\n```\n\n## Notes\n\n- `0x2102` = normal boot, loads startup-config/bootstrap\n- `0x2142` = ignore NVRAM — set accidentally during some IOS XE upgrade paths\n- The staged value `(will be 0x2102 at next reload)` in `show bootvar` means the fix is applied but the reload has not happened yet\n- After the router comes back up, the pipeline can be resumed from `verify_online`",
+    "tags": "bootstrap,router,config-register,sdwan",
+    "category": "troubleshooting",
+    "status": "published",
+    "created_at": "2026-05-21 20:55:41",
+    "updated_at": "2026-05-21 20:56:13"
+  },
+  {
+    "id": 22,
+    "title": "Verify SDA Fabric Operations Commands",
+    "body": "### Verify SDA Fabric Operations Commands\n\nUse these commands to verify the health of an SDA fabric after deployment or troubleshooting.\n\n---\n\n## Control Plane (LISP)\n\nRun on Leaf switches unless noted.\n\n    show lisp instance-id 4100 ipv4 map-cache        ! Main VRF — entries resolving?\n    show lisp instance-id 4099 ipv4 map-cache        ! PROD\n    show lisp instance-id 4101 ipv4 map-cache        ! IOT\n    show lisp site                                    ! Border Spine only — registered EIDs\n    show lisp instance-id 4100 ipv4 database         ! Leaf — what endpoints are registered\n\nLook for `complete` entries in the map-cache with a valid locator (172.30.255.3).\nA `Negative cache` entry means the map-server has no registration for that prefix.\n`show lisp site` on Border Spine should show EIDs registered from Leaf1 (172.30.255.1) and Leaf2 (172.30.255.2).\n\n---\n\n## BGP (Border Spine <-> Router)\n\nRun on Border Spine.\n\n    show bgp vpnv4 unicast all summary               ! all 3 VRF peers up? (192.168.255.0/.2/.4)\n    show ip route vrf Main                           ! 198.18.5.0/24 present via 192.168.255.0?\n    show ip route vrf PROD\n    show ip route vrf IOT\n\nExpected BGP neighbors: 192.168.255.0 (Main), 192.168.255.2 (PROD), 192.168.255.4 (IOT).\nAll should show a numeric prefix count in State/PfxRcd — not Idle or Active.\nEach VRF table must contain 198.18.5.0/24 (DHCP server route) — if missing, relay traffic has no return path.\n\n---\n\n## Authentication / ISE (Leaf Switches)\n\nRun on Leaf1 or Leaf2.\n\n    show authentication sessions                     ! any active sessions?\n    show authentication sessions interface Gi1/0/1   ! is the client authenticated?\n    show authentication sessions interface Gi1/0/3\n    show access-session                              ! SGT assigned?\n\nLook for Status: Authorized and a valid VLAN/Domain. If Unauthorized, dot1x/MAB has not completed.\nIf show authentication sessions shows no sessions on Gi1/0/1 or Gi1/0/3, verify the port has\n`source template DefaultWiredDot1xClosedAuth` applied — this was the root cause of DHCP failure in this lab.\n\n---\n\n## DHCP Relay\n\nRun on Leaf switches.\n\n    show ip helper-address                           ! no 'global', no source-interface\n    show ip dhcp snooping statistics                 ! packets forwarded vs dropped\n\nCorrect relay config:\n- Helper address: 198.18.5.102\n- NO 'global' keyword — relay must stay in VRF (LISP resolves the path)\n- NO 'ip dhcp relay source-interface Loopback0' — giaddr must be the SVI IP (e.g. 10.10.255.1)\n  so the DHCP server reply can route back via OMP\n\n---\n\n## Fabric Edge (Leaf)\n\n    show vlan brief                                  ! VLANs 10, 101, 102 active\n    show ip interface brief | include Vlan           ! SVIs up/up\n    ping vrf Main 198.18.5.102 repeat 3             ! relay path reachable?\n\nAll three SVIs (Vlan10, Vlan101, Vlan102) must be up/up with anycast IPs (10.10.255.1, 10.101.255.1, 10.102.255.1).\n\n---\n\n## Quick Health Check — Border Spine\n\n    show ip bgp vpnv4 all summary | include 192.168.255\n    show ip route vrf Main | include 198.18.5\n    show lisp site summary\n\n---\n\n## Key Points\n\nTwo most telling commands:\n- `show authentication sessions` on a leaf — confirms clients are hitting ISE and authorized into the correct VRF\n- `show lisp site` on Border Spine — confirms endpoints are registered in the LISP control plane\n",
+    "tags": "sda,fabric,lisp,bgp,ise,dhcp,verify,troubleshooting",
+    "category": "sda-fabric",
+    "status": "published",
+    "created_at": "2026-05-27 21:53:52",
+    "updated_at": "2026-05-27 21:53:52"
+  },
+  {
+    "id": 23,
+    "title": "FTD Tunnels not Coming up",
+    "body": "Shouldn't take long. If you SSH to vFTD from mremote, run \"system support diagnostic-cli\", enable mode with a blank password, then show crypto isakmp sa.this will show you if you have any phase 1 SAs. If not, you have a problem with the tunnel config",
+    "tags": "",
+    "category": "infrastructure",
+    "status": "published",
+    "created_at": "2026-07-14 21:42:07",
+    "updated_at": "2026-07-14 21:42:07"
+  }
+]
