@@ -36,5 +36,13 @@
     "category": "Connect DUO IDP",
     "status": "published",
     "created_at": "2026-07-15 21:34:52"
+  },
+  {
+    "title": "DUO SSO Test Fails: Logging shows \"Denied, user not found\"",
+    "body": "If you are testing the SSO login from SA and its failing.... not even trying to login check the DUO logging from the Admin portal under repots\n\n![duo-logging-error](https://raw.githubusercontent.com/mokuma56/POD-Automator-KB/main/images/d3391dcd_duo-logging-error.jpg)\n\n\nif you see this check the base DN as below make sure its correct as below\n\n\n\n![duo-logging-fix](https://raw.githubusercontent.com/mokuma56/POD-Automator-KB/main/images/6fec4f0c_duo-logging-fix.jpg)",
+    "tags": "SSO",
+    "category": "Connect DUO IDP",
+    "status": "published",
+    "created_at": "2026-07-16 13:00:40"
   }
 ]
