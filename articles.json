@@ -1,13 +1,11 @@
 [
   {
-    "id": 21,
     "title": "Bootstrap Failure — Config Register 0x2142",
     "body": "## Symptom\n\nRouter boots into SD-WAN controller mode with **no config** every time, even though `ciscosdwan.cfg` is present and correct on bootflash. Pipeline shows `controller_mode_enable` completing but the router comes up blank.\n\n## Root Cause\n\nConfig register `0x2142` tells the router to ignore NVRAM/startup-config on boot. The bootstrap file is never loaded.\n\n## How to Detect\n\nRun `show bootvar` on the router. Look for:\n\n```\nConfiguration register is 0x2142\n```\n\nAlso watch the `controller_mode_enable` pipeline output for this warning — it is the tell:\n\n```\nWARNING: Boot variable either does not exist or buffer is too small\nThis may impact autoboot of the router. Proceed with caution\n```\n\nIf you see that warning, check `show bootvar` immediately.\n\n## Fix\n\nSSH to the router and run:\n\n```\nconf t\nconfig-register 0x2102\nend\nwrite mem\nreload\n```\n\nAfter reload, run `show bootvar` again and confirm:\n\n```\nConfiguration register is 0x2102\n```\n\n## Notes\n\n- `0x2102` = normal boot, loads startup-config/bootstrap\n- `0x2142` = ignore NVRAM — set accidentally during some IOS XE upgrade paths\n- The staged value `(will be 0x2102 at next reload)` in `show bootvar` means the fix is applied but the reload has not happened yet\n- After the router comes back up, the pipeline can be resumed from `verify_online`",
     "tags": "bootstrap,router,config-register,sdwan",
     "category": "troubleshooting",
     "status": "published",
-    "created_at": "2026-05-21 20:55:41",
-    "updated_at": "2026-05-21 20:56:13"
+    "created_at": "2026-05-21 20:55:41"
   },
   {
     "id": 22,
