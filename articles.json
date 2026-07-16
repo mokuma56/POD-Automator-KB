@@ -16,14 +16,12 @@
     "created_at": "2026-05-27 21:53:52"
   },
   {
-    "id": 23,
     "title": "FTD Tunnels not Coming up",
     "body": "Shouldn't take long. If you SSH to vFTD from mremote, run \"system support diagnostic-cli\", enable mode with a blank password, then show crypto isakmp sa.this will show you if you have any phase 1 SAs. If not, you have a problem with the tunnel config",
     "tags": "",
     "category": "infrastructure",
     "status": "published",
-    "created_at": "2026-07-14 21:42:07",
-    "updated_at": "2026-07-14 21:42:07"
+    "created_at": "2026-07-14 21:42:07"
   },
   {
     "title": "Duo SSO Fails with \"Welcome to Duo\" pop-up",
