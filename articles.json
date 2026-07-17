@@ -38,5 +38,13 @@
     "category": "Connect DUO IDP",
     "status": "published",
     "created_at": "2026-07-16 13:00:40"
+  },
+  {
+    "title": "TE Integration Pop-Up Error with SA",
+    "body": "If you see this pop-up error when trying to authenticated TE\n\n![TE-Error](https://raw.githubusercontent.com/mokuma56/POD-Automator-KB/main/images/c90ce656_TE-Error.jpg)\n\nJust have the user ignore the pop-up, got back to the dashboard and re-login to TE. the integration will complete\n\nThis is not \"Real World\" experience we have to work around dCloud's SAML and SSO … that they give us with auto-login. Recently TE enabled CUI for C3 which gives this pop-up that can be ignored, but it is requiring a re-login to complete the integration. We will update the guide for this.",
+    "tags": "TE",
+    "category": "Experience Insights Integration",
+    "status": "published",
+    "created_at": "2026-07-17 13:24:28"
   }
 ]
