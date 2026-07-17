@@ -1,0 +1,152 @@
+vrf definition IOT
+ rd 172.30.255.3:102
+ !
+ address-family ipv4
+  route-target export 65535:102
+  route-target import 65535:102
+  route-target export 65535:102 stitching
+  route-target import 65535:102 stitching
+ exit-address-family
+!
+vrf definition Main
+ rd 172.30.255.3:10
+ !
+ address-family ipv4
+  route-target export 65535:10
+  route-target import 65535:10
+  route-target export 65535:10 stitching
+  route-target import 65535:10 stitching
+ exit-address-family
+!
+vrf definition PROD
+ rd 172.30.255.3:101
+ !
+ address-family ipv4
+  route-target export 65535:101
+  route-target import 65535:101
+  route-target export 65535:101 stitching
+  route-target import 65535:101 stitching
+ exit-address-family
+!
+vlan 1010
+ name L3-VRF-CORE-VLAN-10
+!
+vlan 1101
+ name L3-VRF-CORE-VLAN-101
+!
+vlan 1102
+ name L3-VRF-CORE-VLAN-102
+!
+vlan configuration 1010
+ member vni 110010
+vlan configuration 1101
+ member vni 110101
+vlan configuration 1102
+ member vni 110102
+!
+interface Vlan1010
+ vrf forwarding Main
+ ip unnumbered Loopback0
+ no autostate
+!
+interface Vlan1101
+ vrf forwarding PROD
+ ip unnumbered Loopback0
+ no autostate
+!
+interface Vlan1102
+ vrf forwarding IOT
+ ip unnumbered Loopback0
+ no autostate
+!
+interface nve1
+ no ip address
+ source-interface Loopback0
+ host-reachability protocol bgp
+ member vni 110010 vrf Main
+ member vni 110101 vrf PROD
+ member vni 110102 vrf IOT
+!
+router bgp 65535
+ bgp router-id 172.30.255.3
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 172.30.255.1 remote-as 65535
+ neighbor 172.30.255.1 update-source Loopback0
+ neighbor 172.30.255.2 remote-as 65535
+ neighbor 172.30.255.2 update-source Loopback0
+!
+ address-family l2vpn evpn
+  neighbor 172.30.255.1 activate
+  neighbor 172.30.255.1 send-community both
+  neighbor 172.30.255.1 route-reflector-client
+  neighbor 172.30.255.2 activate
+  neighbor 172.30.255.2 send-community both
+  neighbor 172.30.255.2 route-reflector-client
+ exit-address-family
+ !
+ 
+ 
+ default interface GigabitEthernet 1/0/48
+
+interface GigabitEthernet1/0/48
+ Switchport mode trunk
+ cts manual
+ no shutdown 
+!
+Vlan 10 
+name Main
+vlan 101
+name PROD
+Vlan 102
+name IOT
+
+interface vlan 10
+ description Main
+ vrf forwarding Main
+ ip address 192.168.255.1 255.255.255.254
+!
+interface vlan 101
+
+ vrf forwarding PROD
+ ip address 192.168.255.3 255.255.255.254
+!
+interface vlan 102
+ vrf forwarding IOT
+ ip address 192.168.255.5 255.255.255.254
+!
+router bgp 65535
+ neighbor 192.168.255.6 remote-as 65534
+!
+address-family ipv4
+  network 172.30.255.1 mask 255.255.255.255
+  network 172.30.255.2 mask 255.255.255.255
+  network 172.30.255.3 mask 255.255.255.255
+  neighbor 192.168.255.6 activate
+  neighbor 192.168.255.6 send-community both
+ exit-address-family
+ !
+address-family ipv4 vrf IOT
+  advertise l2vpn evpn
+  redistribute connected
+  neighbor 192.168.255.4 remote-as 65534
+  neighbor 192.168.255.4 activate
+  neighbor 192.168.255.4 send-community both
+ exit-address-family
+ !
+ address-family ipv4 vrf Main
+  advertise l2vpn evpn
+  redistribute connected
+  neighbor 192.168.255.0 remote-as 65534
+  neighbor 192.168.255.0 activate
+  neighbor 192.168.255.0 send-community both
+ exit-address-family
+ !
+ address-family ipv4 vrf PROD
+  advertise l2vpn evpn
+  redistribute connected
+  neighbor 192.168.255.2 remote-as 65534
+  neighbor 192.168.255.2 activate
+  neighbor 192.168.255.2 send-community both
+ exit-address-family
+!
