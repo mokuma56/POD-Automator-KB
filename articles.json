@@ -46,5 +46,13 @@
     "category": "Experience Insights Integration",
     "status": "published",
     "created_at": "2026-07-17 13:24:28"
+  },
+  {
+    "title": "EVPN - AP not registering , Clients not able to ping Macro, Not internet",
+    "body": "If I user can't get their AP to register but its getting a DHCP address fine, and clients are as well getting IP's but can't ping their Macro Segmentation testing interface and do not have internet access, the users EVPN config is messed up. Re-past the (3) configs below.\n\n\n\n![EVPN Spine.txt](https://raw.githubusercontent.com/mokuma56/POD-Automator-KB/main/images/678384b0_EVPN_Spine.txt)\n\n\n\n![EVPN Leaf 1.txt](https://raw.githubusercontent.com/mokuma56/POD-Automator-KB/main/images/d6b73c4f_EVPN_Leaf_1.txt)\n\n\n\n![EVPN Leaf 2.txt](https://raw.githubusercontent.com/mokuma56/POD-Automator-KB/main/images/568e67f0_EVPN_Leaf_2.txt)",
+    "tags": "wireless, evpn, dhcp, macro",
+    "category": "EVPN Fabric Provisioning",
+    "status": "published",
+    "created_at": "2026-07-17 14:03:01"
   }
 ]
