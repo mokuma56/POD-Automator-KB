@@ -54,5 +54,13 @@
     "category": "EVPN Fabric Provisioning",
     "status": "published",
     "created_at": "2026-07-17 14:03:01"
+  },
+  {
+    "title": "Remove Old SD-WAN versions",
+    "body": "Here are the exact commands used:\n1. Check what versions are installed:\nshow sdwan software\n\n2. Remove each inactive version (replace with your build numbers):\nrequest platform software sdwan software remove 17.09.01a.0.240\nrequest platform software sdwan software remove 17.12.06.0.7364\n\n3. Verify cleanup:\nshow sdwan software\n\nKey notes:\n\n- These are SD-WAN controller mode commands — the standard install remove inactive won't work, it will tell you to use request platform software sdwan software instead\n\n- The build number format is version.build (e.g. 17.12.06.0.7364) — get the exact number from show sdwan software, don't guess it\n\n- If you get FAILED: cannot start new install operation, some operation is already running — run request platform software sdwan software reset first (it will prompt for confirmation — just press Enter)\n\n- Only removes inactive versions — it won't touch the active/default image",
+    "tags": "SD-WAN",
+    "category": "General",
+    "status": "published",
+    "created_at": "2026-08-10 15:11:15"
   }
 ]
