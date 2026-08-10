@@ -70,5 +70,13 @@
     "category": "General",
     "status": "published",
     "created_at": "2026-08-10 15:12:52"
+  },
+  {
+    "title": "switch not accepting start-up config",
+    "body": "no system ignore startupconfig switch all",
+    "tags": "switch",
+    "category": "General",
+    "status": "published",
+    "created_at": "2026-08-10 15:13:33"
   }
 ]
