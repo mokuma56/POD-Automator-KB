@@ -62,5 +62,13 @@
     "category": "General",
     "status": "published",
     "created_at": "2026-08-10 15:11:15"
+  },
+  {
+    "title": "Switch/Router upgrade",
+    "body": "install add file flash:cat9k_iosxe.17.12.01.SPA.bin activate commit \n\ninstall add file flash:cat9k_iosxe.17.18.01.SPA.bin activate commit",
+    "tags": "Upgrade",
+    "category": "General",
+    "status": "published",
+    "created_at": "2026-08-10 15:12:52"
   }
 ]
