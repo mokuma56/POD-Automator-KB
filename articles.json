@@ -78,5 +78,13 @@
     "category": "General",
     "status": "published",
     "created_at": "2026-08-10 15:13:33"
+  },
+  {
+    "title": "Reset AP Commands",
+    "body": "Username: Cisco \n\nPassword: Cisco \n\ncapwap ap erase all",
+    "tags": "Wireless",
+    "category": "Configure & Test WLC",
+    "status": "published",
+    "created_at": "2026-08-10 15:14:20"
   }
 ]
