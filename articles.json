@@ -102,5 +102,13 @@
     "category": "General",
     "status": "published",
     "created_at": "2026-10-08 15:20:09"
+  },
+  {
+    "title": "Fix switches that are on 17.9 code quickly",
+    "body": "If 17.12 files are on switch you can do this to speed up upgrade, run the first command then reboot the switch, if the first is rejected run the second. If it still does not work you will have to manually copy the code from the jump host and run the upgrade command: \n\n \n\ncopy cat9k_iosxe.17.12.01.SPA.conf packages.conf \n\ncopy flash:cat9k_iosxe.17.12.01.SPA.conf flash:packages.conf",
+    "tags": "",
+    "category": "General",
+    "status": "published",
+    "created_at": "2026-10-08 15:21:01"
   }
 ]
