@@ -94,5 +94,13 @@
     "category": "General",
     "status": "published",
     "created_at": "2026-09-24 16:14:03"
+  },
+  {
+    "title": "Switch upgrade Commands",
+    "body": "install add file flash:cat9k_iosxe.17.12.01.SPA.bin activate commit \n\ninstall add file flash:cat9k_iosxe.17.18.01.SPA.bin activate commit",
+    "tags": "",
+    "category": "General",
+    "status": "published",
+    "created_at": "2026-10-08 15:20:09"
   }
 ]
