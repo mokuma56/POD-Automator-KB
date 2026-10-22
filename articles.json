@@ -110,5 +110,13 @@
     "category": "General",
     "status": "published",
     "created_at": "2026-10-08 15:21:01"
+  },
+  {
+    "title": "Discovery Failed for switches on 26 code",
+    "body": "switches were on 26.1.2 so the SNMPv2 config was missing/blocked on his switches. 🥦\n\nHad to change the switch to 'system mode insecure' and repaste in the SNMP config and we were back in action.",
+    "tags": "",
+    "category": "General",
+    "status": "published",
+    "created_at": "2026-10-22 18:34:34"
   }
 ]
